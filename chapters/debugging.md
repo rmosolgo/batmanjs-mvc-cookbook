@@ -1,4 +1,5 @@
 # Debugging
+\label{cha:debugging}
 
 ## Looking Up Values in a View Context
 \label{sec:view_context}

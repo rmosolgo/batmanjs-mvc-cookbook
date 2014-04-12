@@ -1,4 +1,5 @@
 # Views
+\label{cha:batman_view}
 
 ## Initialize a jQuery Component
 \label{sec:jquery_initialization}

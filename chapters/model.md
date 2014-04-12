@@ -1,4 +1,5 @@
 # Model
+\label{cha:batman_model}
 
 ## Find a Record in the Memory Map
 \label{sec:memory_map}

@@ -1,4 +1,5 @@
 # Filters
+\label{cha:batman_filters}
 
 ## Add a Custom Filter
 \label{sec:custom_filter}

@@ -1,4 +1,5 @@
 # HTML
+\label{cha:batman_view_html}
 
 ## Display all records sorted by name
 \label{sec:sort_records}

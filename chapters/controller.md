@@ -1,4 +1,5 @@
 # Controller
+\label{cha:batman_controller}
 
 ## Render a View _after_ the data has loaded
 \label{sec:defer_render}

@@ -1,6 +1,6 @@
 # Batman.js MVC Cookbook
 
-Online at Softcover.io
+Online at Softcover.io as [Batman.js MVC Cookbook](https://www.softcover.io/books/69/redirect).
 
 ## Contributing
 

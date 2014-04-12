@@ -1,4 +1,6 @@
 # App
+\label{cha:batman_app}
+
 
 ## Put The App in the Global Scope
 \label{sec:global_scope}
