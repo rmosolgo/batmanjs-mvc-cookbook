@@ -1,0 +1,11 @@
+---
+slug: batmanjs_cookbook
+filename: batmanjs_cookbook
+title: Title of the Book
+subtitle: Change me
+description: Change me.
+author: Author Name
+copyright: 2014
+uuid: 0361792e-9a0f-4dab-ac2a-55b9c988e04c
+pdf_preview_page_range: 1..30
+epub_mobi_preview_chapter_range: 0..1
