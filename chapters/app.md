@@ -1,6 +1,5 @@
 # App
 
-<<source()
 ## Put The App in the Global Scope
 \label{sec:global_scope}
 
@@ -9,6 +8,7 @@ Use `@` in a coffeescript file to access `window`:
 ```coffeescript
 class @MyApp extends Batman.App
 ```
+
 
 ## Run App When Page Is Ready
 \label{sec:run}
