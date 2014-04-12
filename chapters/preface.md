@@ -6,5 +6,5 @@ This book is meant to be a quick-and-dirty how-to guide for [batman.js](http://b
 
 I want this book to be a valuable resource, so I welcome contributions by:
 
-- submitting new "recipes" as pull requests on Github
-- requesting new "recipes" by opening issues on Github
+- submitting new "recipes" as pull requests on [Github](https://github.com/rmosolgo/batmanjs-cookbook)
+- requesting new "recipes" by [opening issues on Github](https://github.com/rmosolgo/batmanjs-cookbook/issues)
