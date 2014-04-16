@@ -1,5 +1,6 @@
 cover
 frontmatter:
+cover_image.md
 maketitle
 tableofcontents
 preface.md
@@ -9,5 +10,4 @@ model.md
 controller.md
 view.md
 html.md
-filters.md
 debugging.md

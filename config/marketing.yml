@@ -48,35 +48,20 @@ prices:
 
 authors:
   -
-    name: "The Author"
-    image: /images/testimonial_1.png
-    contact_email: "info@softcover.io"
+    name: "Robert Mosolgo"
+    image: /images/rmosolgo.png
+    contact_email: "rdmosolgo@gmail.com"
     bio:
       |
-        Author bio [link](https://www.softcover.io)
+        Robert Mosolgo studied Chinese Studies at [The College of William and Mary](http://wm.edu). He discovered
+        web programming while working at [AidData](http://aiddata.org). Now, he enjoys productive and expressive work
+        as a developer at [Planning Center Online](http://get.planningcenteronline.com).
+        He is also a committer to [batman.js](http://github.com/batmanjs/batman).
 
-faq:
-  -
-    question: "Question 1 text"
-    answer: "Answer 1 text"
+        Robert lives in Carlsbad, California with his wife Valerie ([@vwmos](https://twitter.com/vwmos)), who designed the cover for this book.
 
-  -
-    question: "Question 2 text"
-    answer: "Answer 2 text"
-
-testimonials:
-  -
-    name: "Person 1"
-    title: "Person 1 Title"
-    image: /images/testimonial_1.png
-    text: "Testimonial 1 text"
-
-  -
-    name: "Person 2"
-    title: "Person 2 Title"
-    gravatar_email: "info@softcover.io"
-    text: "Testimonial 2 text"
-
+faq: []
+testimonials: []
 marketing_content: ''
 
 contact_email: ''

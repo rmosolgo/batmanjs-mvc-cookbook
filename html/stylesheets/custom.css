@@ -3,13 +3,25 @@
 /* Google for "LaTeX style files" to learn how to use custom.sty */
 
 /*
+ GRAY: #2C2C2C;
+ PURPLE: #593b96;
+*/
 
 body #book {
-  background: green;
+  color: #2C2C2C;
+  font-family: "Avenir", "Futura", "Helvetica", sans-serif;
 }
 
-#book p {
-  color: purple;
+#book pre, #book code {
+  font-family: "Monaco", monospace;
+}
+#book code {
+  font-size: 80%;
+}
+#book h1, #book h2 {
+  font-family: "Didot", "Georgia", serif;
 }
 
-*/
+body #book #table_of_contents a {
+  color: #593b96;
+}

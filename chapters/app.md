@@ -2,7 +2,7 @@
 \label{cha:batman_app}
 
 
-## Put The App in the Global Scope
+## Put the App in the Global Scope
 \label{sec:global_scope}
 
 Use `@` in a coffeescript file to access `window`:
@@ -63,7 +63,7 @@ Batman.js redirects all missing routes to `/404`
   @route '/404', (params) -> App.showDialog("errors/show404")
 ```
 
-## Create App-wide Accessors
+## Create App-Wide Accessors
 \label{sec:app_accessors}
 
 Use `@classAccessor` inside the App definition:
@@ -89,3 +89,39 @@ Since view bindings can see properties on `Batman.currentApp`, you can use app-w
 ```html
 <a data-event-click="goBack">Back</a>
 ```
+
+## Compile the App (with Rails)
+\label{sec:compile_with_rails}
+
+Compiling batman.js with the Rails asset pipeline is a breeze. If you're using the batman-rails gem, `rails generate batman:app` will set everything up for you.
+
+Use sprockets `require` directives to require dependencies when extending your own classes:
+
+```coffeescript
+#= require ./product
+class App.GiftBasket extends App.Product
+```
+
+If you're not using batman-rails, use sprockets `require` directives to include whole directories in the main application file:
+
+
+```coffeescript
+#= require ./lib/batman
+#= require ./lib/jquery
+#= require_self
+#= require_tree ./models
+#= require_tree ./views
+# ...
+class @App extends Batman.App
+```
+
+## Compile the App (without Rails)
+\label{sec:compile_without_rails}
+
+Batman.js doesn't include a loader. You must compile the CoffeeScript and ensure proper load order yourself.
+
+Your options include:
+
+- [Gulp.js](http://gulpjs.com/): See [this blog post](http://rmosolgo.github.io/blog/2014/03/22/using-gulp-dot-js-to-build-batman-dot-js-without-rails/).
+- [Harp.js](http://harpjs.com/): good for building front-end only.
+- Please [add to this project](https://github.com/rmosolgo/batmanjs-mvc-cookbook) if you have another good solution!

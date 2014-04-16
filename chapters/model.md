@@ -1,7 +1,10 @@
 # Model
 \label{cha:batman_model}
 
-## Find a Record in the Memory Map
+## Working with Records
+\label{sec:records}
+
+### Find a Record in the Memory Map
 \label{sec:memory_map}
 Find it by ID (returns `undefined` if not present):
 
@@ -15,7 +18,7 @@ Find it by ID, create a new record if not found (always returns a record):
 cachedItem = App.Product.createFromJSON({id: productId})
 ```
 
-## Remove a Record from the Memory Map
+### Remove a Record from the Memory Map
 \label{sec:remove_from_memory_map}
 
 Each model's `loaded` set is a `Batman.Set`, so you can use its `remove` function.
@@ -24,7 +27,52 @@ Each model's `loaded` set is a `Batman.Set`, so you can use its `remove` functio
 App.Product.get('loaded').remove(unwantedProduct)
 ```
 
-## Load a Record from a Specific URL
+### Filter Records by Attribute Value
+
+Use `indexedBy` to create a `Batman.SetIndex`, a set of records with a given value.
+
+For example, to find all `Product`s in the "toys" category:
+
+```coffeescript
+toys = App.Product.get('all.indexedBy.category').get('toys')
+```
+
+If you need a more complex filter function, create an accessor on the model:
+
+```coffeescript
+class App.Product extends Batman.Model
+  @accessor 'forChildren', ->
+    @get('recommendedAge') <= 12 || @get('category') is 'toys'
+```
+
+Then, use that accessor to index the records:
+
+```coffeescript
+productsForChildren = App.Product.get('all.indexedBy.forChildren').get(true)
+```
+
+### Sort Records by Attribute Value
+
+Use `sortedBy` to create a `Batman.SetSort`.
+
+```coffeescript
+productsByName = App.Product.get('all.sortedBy.name')
+```
+
+For a more complicated sort, define a new accessor and use it to sort the records:
+
+```coffeescript
+class App.Product extends Batman.Model
+  @accessor 'salesPerYear', ->
+    @get('totalSales') / @get('yearsOnTheMarket')
+# ...
+topSellers = App.Product.get('all.sortedByDescending.salesPerYear')
+```
+
+## Storage
+\label{sec:storage}
+
+### Load a Record from a Specific URL
 \label{sec:load_from_url}
 
 Set its `url` property and `load` it.
@@ -35,7 +83,7 @@ specialProduct.url = "/products/special"
 specialProduct.load()
 ```
 
-## Use Specific URL for Storage
+### Use Specific URL for Storage
 \label{sec:url_for_storage}
 
 Use `Model.url` with `Batman.RestStorage` (or `Batman.RailsStorage`):
@@ -46,7 +94,10 @@ class MyApp.Country extends Batman.Model
   @url: "/api/v1/countries"
 ```
 
-## Asynchronous Accessor Value
+## Attributes
+\label{sec:attributes}
+
+### Asynchronous Accessor Value
 \label{sec:async_accessor}
 
 Use "promise accessor" syntax. The accessor function takes a `promise` key. The function should call `deliver` with the value. If it doesn't return `undefined`, the returned value will be considered an early return value.
@@ -66,7 +117,7 @@ class MyApp.Person extends Batman.Model
       undefined
 ```
 
-## Delegate Model Attributes
+### Delegate Model Attributes
 \label{sec:delegate_attributes}
 
 Use `Batman.Object.delegate`:
@@ -75,7 +126,7 @@ Use `Batman.Object.delegate`:
   @delegate 'name', 'birthdate' to: 'person'
 ```
 
-## Provide a Formatted Version of a Model Attribute
+### Provide a Formatted Version of a Model Attribute
 \label{sec:formatted_attribute}
 
 Create a get-only accessor which returns the formatted value. Branching in `@accessor` bodies is very safe becuase the accessor tracks its sources.
@@ -105,7 +156,7 @@ Or create an accessor that maps between stringified values and raw values:
         when "Limited" then @set('mode', 1)
 ```
 
-## Validate Inclusion for a Multiple-Choice Attribute
+### Validate Inclusion for a Multiple-Choice Attribute
 \label{sec:validate_inclusion}
 
 ```coffeescript
@@ -115,7 +166,7 @@ class App.EmailAddress extends App.Model
   @validate 'location', inclusion: {in: @LOCATIONS}
 ```
 
-## Create Boolean Accessors for Multiple-Choice Attributes
+### Create Boolean Accessors for Multiple-Choice Attributes
 \label{sec:boolean_accessors}
 
 Store values in a class-level "constant", then iterate over them to create accessors. Mind the fat arrows!
@@ -123,7 +174,7 @@ Store values in a class-level "constant", then iterate over them to create acces
 ```coffeescript
 class App.User extends Batman.Model
   @encode 'permission'
-  @PERMISSIONS = ["Viewer", "Editor", Administrator"]
+  @PERMISSIONS = ["Viewer", "Editor", "Administrator"]
 
   @PERMISSIONS.forEach (permission) =>
     # create accessors like `isViewer`
@@ -142,7 +193,7 @@ App.Person.PERMISSIONS.forEach (permission) ->
   App.classAccessor "is#{permission}", -> App.get("Person.current.is#{permission}")
 ```
 
-## Provide Custom Validation for Attribute
+### Provide Custom Validation for Attribute
 \label{sec:custom_validation_function}
 
 Implement a function with this signature:
@@ -159,7 +210,7 @@ Implement a function with this signature:
 - call `callback` to continue the validation process.
 - validations may be asynchronous
 
-## Set Values Without Dirtying the Model
+### Set Values Without Dirtying the Model
 \label{sec:without_dirty_tracking}
 
 Use the semi-private `Model::_withoutDirtyTracking` function:
@@ -177,14 +228,54 @@ class App.Country extends Batman.Model
 
 Nothing inside the passed function will dirty the record's attributes.
 
-## Set Values Only If They're Undefined
+### Set Values Only If They're Undefined
 \label{sec:get_or_set}
 
 Use `Batman.Object::getOrSet`, which sets the value if it's `undefined`.
 
-```
+```coffeescript
 class App.PhoneNumber extends Batman.Model
   @encode 'number', 'location'
   ensureLocationPresent: ->
     @getOrSet('location', -> 'Home')
+```
+
+## Associations
+\label{sec:associations}
+
+Recipes will draw from these models:
+
+```coffeescript
+class App.Team extends Batman.Model
+  @encode 'name'
+
+class App.Player extends Batman.Model
+  @encode 'name', 'position'
+```
+
+### Corresponding Has-Many and Belongs-To
+
+To set up "player belongs to team", declare a `belongsTo` association in the `Player` definition:
+
+```coffeescript
+class App.Player extends Batman.Model
+  @belongsTo 'team'
+```
+
+To set up "team has many players", declare a `hasMany` in the `Team` definition:
+
+```coffeescript
+class App.Team extends Batman.Model
+  @hasMany 'players', inverseOf: 'team'
+```
+
+_Be sure to include `inverseOf`, if possible. It sets up the 2-way association when loading from JSON._
+
+### Has-Many Association with Inline JSON
+
+Use `saveInline: true` in the association definition:
+
+```coffeescript
+class App.Team extends Batman.Model
+  @hasMany 'players', inverseOf: 'team', saveInline: true
 ```

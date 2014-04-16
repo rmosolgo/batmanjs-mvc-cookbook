@@ -81,7 +81,7 @@ class App.CountryEditView extends Batman.View
     @unset('savingMessage')
 ```
 
-## Sterilze Input Values
+## Sterilize Input Values
 \label{sec:sterilize_inputs}
 
 Define custom accessors with `get` and `set` functions, then bind to them in your HTML. In this case, `numberFormatted` is a proxy to `number`, removing non-digit characters before setting.
@@ -135,48 +135,10 @@ class App.CountriesEditView extends Batman.View
     country.save()
 ```
 
-## Controller Actions Have Default Views
-\label{sec:default_views}
-
-When a controller action renders, it looks for a view class. If it doesn't find one, it generates it on the fly. You can implement these default view classes to extend default functionality. Here's how the
-
-
-Controller Name | Action | View Name
-=== | === | ===
-App.CountriesController | show | App.CountriesShowView
-App.CountriesController | new | App.CountriesNewView
-App.CountriesController | index| App.CountriesIndexView
-App.CountriesController | edit | App.CountriesEditView
-
-If you define those view classes, they will be instantiated when the controller actions render. For example,
-
-```coffeescript
-class App.CountriesController extends App.ApplicationController
-  show: (params) ->
-    App.Country.find params.id, (err, record) =>
-      @set('currentCountry', record)
-    # will render App.CountriesShowView
-
-  new: ->
-    @set 'currentCountry', new App.Country
-    # will render App.CountriesNewView
-
-  index: ->
-    @set('countries', App.Country.get('all'))
-    # will render App.CountriesIndexView
-
-  edit: (params) ->
-    App.Country.find params.id, (err, record) =>
-      @set('currentCountry', record)
-      @render() # will render App.CountriesEditView
-    # defer rendering until `find` resolves
-    @render(false)
-```
-
 ## Transition Between Pages
 \label{sec:view_transitions}
 
-Use the view lifecycle API and implement default views to provide transitions between pages.
+Use the view lifecycle API and implement default views (Section~\ref{sec:default_views}) to provide transitions between pages.
 
 Here's an implementation with jQuery fade:
 
