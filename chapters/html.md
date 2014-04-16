@@ -1,7 +1,10 @@
 # HTML, Bindings and Filters
 \label{cha:batman_view_html}
 
-## Display All Records Sorted by Name
+## Displaying Records
+\label{sec:displaying_records}
+
+### Display All Records Sorted by Name
 \label{sec:sort_records}
 
 Use `Set::sortedBy` on the Model's `all` set:
@@ -20,7 +23,75 @@ Or `sortedByDescending`:
 </ul>
 ```
 
-## Bind to a Select
+### Display Model Errors in a Form
+\label{sec:formfor_errors}
+
+- An element with class `errors` will automatically have errors listed inside it.
+- Form fields will automatically get class `error` if their fields have errors.
+
+```html
+<form data-formfor-comment='currentComment'>
+  <div class='errors'></div>
+  <input type='text' data-bind='comment.message' />
+</form>
+```
+
+### Dynamically Render a Partial from a Record
+\label{sec:dynamic_partials}
+
+Batman.js's `data-partial` binding takes a string, not a keypath, so it's not good for dynamically selecting a partial to render. However, `data-view` does take a keypath, so you can use that.
+
+First, make an accessor on your model which returns a `Batman.View` class (or instance):
+
+```coffeescript
+class App.Animal extends Batman.Model
+  @accessor 'toPartial', ->
+    if @get('isNew')
+      App.AnimalsNewView
+    else
+      App.AnimalsShowView
+```
+
+Then, use that accessor in a `data-view` binding:
+
+```html
+<div data-view='animal.toPartial'>
+  <!-- will use either AnimalsNewView or AnimalsShowView, depending on `animal.isNew` -->
+</div>
+```
+
+(See also Section~\ref{sec:named_partials} for accessing specific views )
+
+### Access Specific Views from a Record
+\label{sec:named_partials}
+
+_Thanks to [@bradstewart](https://github.com/bradstewart) for this one!_
+
+To have customized, named partials attached to your records, define accessors that return a `Batman.View` instance (or class):
+
+```coffeescript
+class App.Animal extends Batman.Model
+  partial: (partialName) ->
+    source = "animals/_#{partialName}"
+    animal = @
+    new App.AnimalView({source, animal})
+
+  @accessor 'show', -> @partial('show')
+  @accessor 'create', -> @partial('create')
+```
+
+Then, you could reach these views from bindings:
+
+```html
+<div data-view='animal.show'></div>
+```
+
+(See also Section~\ref{sec:dynamic_partials} for using `Model::toPartial` to render partials)
+
+## Input Bindings
+\label{sec:input_bindings}
+
+### Bind to a Select
 \label{sec:select_binding}
 
 Use `data-bind`.
@@ -36,7 +107,7 @@ Use `data-bind`.
 </select>
 ```
 
-## Get Select Binding Options from a Collection
+### Get Select Binding Options from a Collection
 \label{sec:dynamic_select_binding}
 
 Put a `data-foreach` binding on the `option` tag, then be sure to use `data-bind` to fill the tag and `data-bind-value` to set the value attribute.
@@ -66,20 +137,7 @@ This works with JavaScript arrays and `Batman.Set`s. To include a blank value, a
 </select>
 ```
 
-## Display Model Errors in a Form
-\label{sec:formfor_errors}
-
-- An element with class `errors` will automatically have errors listed inside it.
-- Form fields will automatically get class `error` if their fields have errors.
-
-```html
-<form data-formfor-comment='currentComment'>
-  <div class='errors'></div>
-  <input type='text' data-bind='comment.message' />
-</form>
-```
-
-## Bind to Radio Buttons for Multiple-Choice Properties
+### Bind to Radio Buttons for Multiple-Choice Properties
 \label{sec:radio_buttons}
 
 To use radio buttons for a multiple choice property, use `data-bind` and assign the value of each button:
@@ -108,7 +166,10 @@ You can use `data-addclass` to style the selected button:
 </label>
 ```
 
-## Fire Controller Action without Routing to It
+## Other Bindings & Filters
+\label{sec:other}
+
+### Fire Controller Action without Changing the URL
 \label{sec:fire_controller_action}
 
 To execute a controller action _without_ any routing, use `executeAction`, passing it an action name and any arguments for that action:
@@ -121,7 +182,7 @@ To execute a controller action _without_ any routing, use `executeAction`, passi
 
 This will fire `posts#new`, passing it `blogPost`, without changing the current URL.
 
-## Add a Custom Filter
+### Add a Custom Filter
 \label{sec:custom_filter}
 
 `Batman.Filters` is a JavaScript objects whose properties are view filters. Add a filter by assigning a new key:
@@ -138,7 +199,7 @@ Now you can use it in view bindings:
 
 Bindings _must_ be prepared to handle `undefined` values. They're often undefined during initialization and tear-down of views.
 
-## Use Moment.js for Date/Time Formats
+### Use Moment.js for Date/Time Formats
 \label{sec:moment}
 
 ```coffeescript
@@ -150,73 +211,22 @@ Batman.Filters.moment = (date, format) ->
 <span data-bind='currentEvent | moment "MMMM Do YYYY, h:mm:ss a"'></span>
 ```
 
-## Dynamically Render a Partial from a Record
-\label{sec:dynamic_partials}
 
-Batman.js's `data-partial` binding takes a string, not a keypath, so it's not good for dynamically selecting a partial to render. However, `data-view` does take a keypath, so you can use that.
-
-First, make an accessor on your model which returns a `Batman.View` class (or instance):
-
-```coffeescript
-class App.Animal extends Batman.Model
-  @accessor 'toPartial', ->
-    if @get('isNew')
-      App.AnimalsNewView
-    else
-      App.AnimalsShowView
-```
-
-Then, use that accessor in a `data-view` binding:
-
-```html
-<div data-view='animal.toPartial'>
-  <!-- will use either AnimalsNewView or AnimalsShowView, depending on `animal.isNew` -->
-</div>
-```
-
-(See also Section~\ref{sec:named_partials} for accessing specific views )
-
-## Access Specific Views from a Record
-\label{sec:named_partials}
-
-_Thanks to [@bradstewart](https://github.com/bradstewart) for this one!_
-
-To have customized, named partials attached to your records, define accessors that return a `Batman.View` instance (or class):
-
-```coffeescript
-class App.Animal extends Batman.Model
-  partial: (partialName) ->
-    source = "animals/_#{partialName}"
-    animal = @
-    new App.AnimalView({source, animal})
-
-  @accessor 'show', -> @partial('show')
-  @accessor 'create', -> @partial('create')
-```
-
-Then, you could reach these views from bindings:
-
-```html
-<div data-view='animal.show'></div>
-```
-
-(See also Section~\ref{sec:dynamic_partials} for using `Model::toPartial` to render partials)
-
-## Send Views or Clicks to Google Analytics
+### Send Views or Clicks to Google Analytics
 \label{sec:view_or_click_tracking}
 
 _Thanks to the [Shopify team](https://github.com/batmanjs/batman/pull/835) for this one!_
 
 Implement `App.EventTracker` and use `data-track` bindings.
 
-Your app should have an `EventTracker` object that responds to `track(eventName, keypathValue, node)`. For example:
+Your app should have an `EventTracker` class that responds to `track(eventName, keypathValue, node)`. For example:
 
 ```coffeescript
 class App.EventTracker
   track: (type, item, node) ->
     if type is 'click'
       _gaq?.push(['_trackEvent', item.get('category'), item.get('label')])
-    if type is 'view'
+    else if type is 'view'
       _gaq?.push(['_trackPageview', window.location.href])
 ```
 
@@ -227,12 +237,7 @@ Then, put `data-track` bindings in your HTML. For example, to track that an `ite
 ```html
 <ul>
   <li data-foreach-item="items">
-    <a
-      data-route='routes.items[item]'
-      data-track-click='item'
-      data-bind='item.label'
-      >
-    </a>
+    <a data-route='routes.items[item]' data-track-click='item' data-bind='item.label'></a>
   </li>
 </ul>
 ```
