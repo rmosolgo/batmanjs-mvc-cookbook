@@ -2,7 +2,7 @@
 
 This book is meant to be a quick-and-dirty how-to guide for [batman.js](http://batmanjs.org). I am gathering FAQs and examples from wherever I can and collecting them here!
 
-Cover credits to Valerie Mosolgo and [trianglify](qrohlf.com/trianglify/).
+Cover credits to Valerie Mosolgo and [trianglify](http://qrohlf.com/trianglify/).
 
 # Contributing
 
