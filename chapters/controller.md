@@ -41,7 +41,9 @@ class App.CountriesController extends App.ApplicationController
     @render(false)
 ```
 
-### Render a View _after_ the Data Has Loaded
+These views will also have their `source` attribute provided by default (See Box~\ref{aside:default_view_sources})
+
+### Render a View _After_ the Data Has Loaded
 \label{sec:defer_render}
 
 Use `@render(false)` to disable the implicit, inline render. Then, call `@render()` in the operation's call back. Be sure to use a fat arrow (`=>`) when passing the callback so that `@` refers to the controller.
@@ -58,8 +60,9 @@ class App.PostsController extends App.ApplicationController
 ```
 
 ### Render Views into a Modal
+\label{sec:render_into_modal}
 
-See a [live, annotated example](http://bl.ocks.org/rmosolgo/10606657) of this implementation ([source](https://gist.github.com/rmosolgo/10606657)).
+See a [live, annotated example](http://bl.ocks.org/rmosolgo/11052009) of this implementation ([source](https://gist.github.com/rmosolgo/11052009)).
 
 Set up a `data-yield='modal'`:
 
@@ -69,17 +72,19 @@ Set up a `data-yield='modal'`:
 </div>
 ```
 
-Observe `Batman.DOM.Yield.get('yields.modal.contentView')` for when a view is rendered. Open the modal inside that observer:
+Create a `dialog` function on `ApplicationController` which renders into `modal` and opens the dialog on the view's `ready` event:
 
 ```coffeescript
-class @App extends Batman.App
-  @on 'run', ->
-    Batman.DOM.Yield.observe 'yields.modal.contentView', (newValue, oldValue) ->
-      if newValue?
-        $('#modal').modal('show')
+class App.ApplicationController extends Batman.Controller
+  openDialog: -> $('.modal').modal('show')
+
+  dialog: (renderOptions={}) ->
+    opts = Batman.extend({into: "modal"}, renderOptions)
+    view = @render(opts).on 'ready', =>
+      @openDialog()
 ```
 
-_(See Aside~\ref{aside:modals} for another way to open the dialog.)_
+_(See Box~\ref{aside:modals} for another way to open the dialog.)_
 
 Create a function on ApplicationController to close the dialog and `die` the view and add it as a `beforeAction`:
 
@@ -94,7 +99,7 @@ class App.ApplicationController extends Batman.Controller
   @beforeAction @::closeDialog
 ```
 
-For actions which should render into the modal, explicitly render: `@render(into: 'modal')`. The modal will be opened automatically by the observer:
+For actions which should render into the modal, use `@dialog` instead of `@render`:
 
 ```coffeescript
 class App.AnimalsController extends App.ApplicationController
@@ -102,10 +107,10 @@ class App.AnimalsController extends App.ApplicationController
   edit: (params) ->
     App.Animal.find params.id (err, animal) ->
       @set 'currentAnimal', animal
-    @render(into: 'modal')
+    @dialog()
 ```
 
-Since you're just calling `@render`, it will still lookup a view class to intantiate (see Section~\ref{sec:default_views}).
+It will still lookup a view class to instantiate (see Section~\ref{sec:default_views}).
 
 See also Section~\ref{sec:fire_controller_action} to open a model without changing the URL.
 
@@ -113,42 +118,19 @@ See also Section~\ref{sec:fire_controller_action} to open a model without changi
 \label{aside:modals}
 \heading{Another Way to Open a Modal}
 
-\noindent `@render` returns the rendered view, so that offers another way to open the modal.
-
-Listen for the view's `viewDidAppear` event:
+\noindent Instead of listening for the `ready` event of the created view, you could observe the `yield` and show the modal whenever a view is rendered inside it. For example:
 
 ```coffeescript
-class App.AnimalsController extends App.ApplicationController
-  # ...
-  edit: (params) ->
-    App.Animal.find params.id (err, animal) ->
-      @set 'currentAnimal', animal
-
-    view = @render(into: 'modal')
-    view.on 'viewDidAppear', ->
-      $('#modal').modal('show')
+class @App extends Batman.App
+  @on 'run', ->
+    Batman.DOM.Yield.observe 'yields.modal.contentView', (newValue, oldValue) ->
+      if newValue?
+        $('#modal').modal('show')
 ```
 
-You could move this functionality into a function on `ApplicationController`:
+This observes `Batman.DOM.Yield.get('yields.modal.contentView')` for when a view is rendered and opens the modal whenever that happens.
 
-```coffeescript
-class App.ApplicationController extends Batman.Controller
-  dialog: (options={}) ->
-    options = Batman.mixin({}, {into: "modal"}, options)
-    @render(options).on 'viewDidAppear', ->
-      $('#modal').modal('show')
-```
-
-Then use that function to render actions into dialogs:
-
-```coffeescript
-class App.AnimalsController extends App.ApplicationController
-  # ...
-  edit: (params) ->
-    App.Animal.find params.id (err, animal) ->
-      @set 'currentAnimal', animal
-    @dialog('modal')
-```
+See a [live example](http://bl.ocks.org/rmosolgo/10606657) of this implementation.
 
 \end{aside}
 
