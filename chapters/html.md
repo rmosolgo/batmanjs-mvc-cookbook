@@ -169,6 +169,20 @@ You can use `data-addclass` to style the selected button:
 ## Other Bindings & Filters
 \label{sec:other}
 
+### Bind to Specific HTML Attributes
+
+Use `data-bind-#{attr}` to bind to _any_ attribute of a node. For example, to bind the `src` attribute of an `<img />`:
+
+```html
+<img data-bind-src='country.flag_url' />
+```
+
+To bind to the `href` of an `<a/>`:
+
+```html
+<a href='country.government_website_url' target="_blank">See Official Homepage</a>
+```
+
 ### Fire Controller Action without Changing the URL
 \label{sec:fire_controller_action}
 

@@ -104,6 +104,36 @@ Batman.js redirects all missing routes to `/404`
   @route '/404', (params) -> App.showDialog("errors/show404")
 ```
 
+### Current URL Parameters and Route Information
+\label{sec:current_url}
+
+#### App.currentParams
+
+`MyApp.get('currentParams')` is a `Batman.Hash` which contains the URL parameters:
+
+```coffeescript
+# /artists/1?autoplay=true
+MyApp.get('currentParams') # => <Batman.Hash>
+MyApp.get('currentParams').toObject()
+# {path: "/artists/1", id: "1", autoplay: "true"}
+```
+
+Since it's a `Batman.Hash`, it may be observed.
+
+`currentParams` is really _just_ the URL information. For App-specific information, use `currentRoute` instead.
+
+#### App.currentRoute
+
+`MyApp.get('currentRoute')` exposes a `Batman.ControllerActionRoute` object which holds the information connecting the current URL to your app's routing. For example:
+
+```coffeescript
+# /artists/1?autoplay=true
+MyApp.get('currentRoute.action')      # => "show"
+MyApp.get('currentRoute.controller')  # => "artists"
+```
+
+`currentRoute` is also observable.
+
 ## Other
 \label{sec:other}
 

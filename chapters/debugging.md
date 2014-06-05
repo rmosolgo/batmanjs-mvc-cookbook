@@ -40,6 +40,21 @@ product22 = App.Product.get('loaded.indexedBy.id').get(22)
 product22.get('id') # => 22
 ```
 
+### Inspecting Controllers
+\label{sec:inspecting_controllers}
+
+Controllers are instantiated once by batman.js, then stored for use during routing. They're stored on your app's `controllers` property:
+
+```coffeescript
+MyApp.get('controllers') # => <ControllerDirectory>
+```
+
+A `ControllerDirectory` looks up keys against `Batman.currentApp` to find a controller's `sharedInstance`. The key should be a small-camel version of its class name:
+
+```coffeescript
+MyApp.get('controllers.albumCovers') # => <MyApp.AlbumCoversController.sharedInstance>
+```
+
 ## Common Errors
 \label{sec:common_errors}
 

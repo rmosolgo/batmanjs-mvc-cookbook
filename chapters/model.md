@@ -69,7 +69,7 @@ class App.Product extends Batman.Model
 topSellers = App.Product.get('all.sortedByDescending.salesPerYear')
 ```
 
-## Storage
+## Getting Data from Storage
 \label{sec:storage}
 
 ### Load a Record from a Specific URL
@@ -93,6 +93,26 @@ class MyApp.Country extends Batman.Model
   @persist Batman.RestStorage
   @url: "/api/v1/countries"
 ```
+
+### Reload All Records
+\label{sec:reload_all_records}
+
+Use `Model.load` to force a reload from the storage adapter.
+
+```coffeescript
+MyApp.Country.load() # will initiate a request
+```
+
+This will add new records, but __won't__ remove destroyed records. To remove destroyed records, replace the `loaded` set with the loaded records:
+
+```coffeescript
+MyApp.Country.load (err, records) ->
+  throw err if err?
+  recordSet = new Batman.Set(records...)
+  MyApp.Country.get('loaded').replace(recordSet)
+```
+
+Using `replace` means batman.js will automatically update all bindings and accessors with any added or removed items.
 
 ## Attributes
 \label{sec:attributes}
