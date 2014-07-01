@@ -13,6 +13,14 @@ Batman.js ships with a global function called `$context` which returns the `Batm
 2. In the JavaScript console, lookup the node's view: `view = $context($0)`
 3. Use `View::lookupKeypath` to get values in the view's context: `view.lookupKeypath('company.name')`
 
+For example:
+
+```coffeescript
+# right-click, "inspect element"
+myView = $context($0)
+recordName = myView.lookupKeypath("record.name")
+```
+
 ### Calling the Debugger During Binding Initialization
 \label{sec:data_debug}
 
@@ -80,3 +88,18 @@ To fix, either:
 
 - add the HTML template which is requested by the JavaScript application
 - define a different `source` for the view which is requesting the HTML
+
+### "Related model ... hasn't loaded yet.
+\label{sec:related_model_not_found}
+
+A model association tried to lookup a model against its namespace. The default namespace is `Batman.currentApp`.
+
+You should either:
+
+- Call `MyApp.run()`, which will make `MyApp` the current application
+- Manually set `Batman.currentApp = MyApp`
+
+If you passed a `namespace` option to the association, make sure sure it's correct!
+
+
+

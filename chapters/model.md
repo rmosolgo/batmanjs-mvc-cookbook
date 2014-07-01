@@ -114,6 +114,22 @@ MyApp.Country.load (err, records) ->
 
 Using `replace` means batman.js will automatically update all bindings and accessors with any added or removed items.
 
+### Get a Field from Storage, but Don't Send It Back
+\label{sec:one_way_encoding}
+
+Pass an object to `@encode` whose `encode` property is `false`.
+
+For example, to get `total_population` from storage, but not send it back when saving, use:
+
+```coffeescript
+class MyApp.Country extends Batman.App
+  @encode 'total_population',
+    encode: false
+    # the default decoder will be used
+```
+
+Now, `total_population` won't be present in the JSON sent back to the server.
+
 ## Attributes
 \label{sec:attributes}
 
@@ -258,6 +274,21 @@ class App.PhoneNumber extends Batman.Model
   @encode 'number', 'location'
   ensureLocationPresent: ->
     @getOrSet('location', -> 'Home')
+```
+
+### Provide Default Values
+\label{sec:default_values}
+
+In the constructor, set values for undefined keys (Section~\ref{sec:get_or_set}) without dirtying the record (Section~\ref{sec:without_dirty_tracking}).
+
+For example, to default `PhoneNumber::location` to `"Home"`:
+
+```coffeescript
+class App.PhoneNumber extends Batman.Model
+  constructor: ->
+    super
+    @_withoutDirtyTracking ->
+      @getOrSet 'location', -> "Home"
 ```
 
 ## Associations

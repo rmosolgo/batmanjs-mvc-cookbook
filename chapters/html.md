@@ -170,6 +170,7 @@ You can use `data-addclass` to style the selected button:
 \label{sec:other}
 
 ### Bind to Specific HTML Attributes
+\label{sec:bind_to_html_attributes}
 
 Use `data-bind-#{attr}` to bind to _any_ attribute of a node. For example, to bind the `src` attribute of an `<img />`:
 
