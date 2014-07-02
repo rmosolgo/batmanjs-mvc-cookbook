@@ -83,6 +83,21 @@ specialProduct.url = "/products/special"
 specialProduct.load()
 ```
 
+### Load a Collection from a Specific URL
+\label{sec:load_collection_from_url}
+
+You can specify a custom `url` at load-time by passing it as an option to `Model.load`. For example:
+
+```coffeescript
+App.Question.load {url: "/questions/latest"}, (err, records) ->
+  # records is an array of loaded records
+```
+
+You can also:
+
+- Set a base URL for the model (Section~\ref{sec:url_for_storage})
+- Define nested URLs (Section~\ref{sec:nested_urls})
+
 ### Use Specific URL for Storage
 \label{sec:url_for_storage}
 
@@ -93,6 +108,41 @@ class MyApp.Country extends Batman.Model
   @persist Batman.RestStorage
   @url: "/api/v1/countries"
 ```
+
+### Use Nested URLs for Loading Records
+\label{sec:nested_urls}
+When using REST storage, you can call `@urlNestsUnder` in the model definition. If any of the "parents" are available at load-time, they'll be used to generate a URL.
+
+For example, you can define possible parents "category" and "user":
+
+```coffeescript
+class App.Question extends Batman.Model
+  @persist Batman.RestStorage # or any subclass of RestStorage
+  @urlNestsUnder 'category', 'user'
+```
+
+Then load questions for a category:
+
+```coffeescript
+App.Question.load {category_id: 43}, (err, records) -> # will use /categories/43/questions
+```
+
+Or load questions for a user:
+
+```coffeescript
+App.Question.load {user_id: 901}, (err, records) -> # will use /users/901/questions
+```
+
+Or, simply load all questions:
+
+```coffeescript
+App.Question.load (err, records) -> # will use base URL
+```
+
+
+
+
+
 
 ### Reload All Records
 \label{sec:reload_all_records}
