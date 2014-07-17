@@ -136,7 +136,7 @@ See a [live example](http://bl.ocks.org/rmosolgo/10606657) of this implementatio
 
 
 ### Authorize Controller Actions
-\label{sec:authorize_views}
+\label{sec:authorize_controller_actions}
 
 Prevent unauthorized users from accessing specific views with a custom `beforeAction`:
 
@@ -159,6 +159,8 @@ class App.PaymentsController extends App.ApplicationController
 ```
 
 Now, any users who attempt to access actions of the PaymentsController and are not either `Admin`s or `SuperAdmin`s will be redirected to an unauthorized page.
+
+__Make sure__ you also authenticate on the server also. You __must__ prevent unauthorized users from accessing parts of the API. If you don't, a malicious user could wreck your app by accessing the API directly (eg, via `$.ajax` or `curl`).
 
 ## Managing Records
 \label{sec:managing_records}
