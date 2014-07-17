@@ -187,10 +187,10 @@ To bind to the `href` of an `<a/>`:
 ### Fire Controller Action without Changing the URL
 \label{sec:fire_controller_action}
 
-To execute a controller action _without_ any routing, use `executeAction`, passing it an action name and any arguments for that action:
+To execute a controller action _without_ any routing, use `dispatch`, passing it an action name and any arguments for that action:
 
 ```html
-<a data-event-click='controllers.posts.executeAction | withArguments "new", blogPost'>
+<a data-event-click='controllers.posts.dispatch | withArguments "new", blogPost'>
   Comment on this Post
 </a>
 ```
