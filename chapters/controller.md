@@ -135,6 +135,31 @@ See a [live example](http://bl.ocks.org/rmosolgo/10606657) of this implementatio
 \end{aside}
 
 
+### Authorize Controller Actions
+\label{sec:authorize_views}
+
+Prevent unauthorized users from accessing specific views with a custom `beforeAction`:
+
+```coffeescript
+class App.ApplicationController extends Batman.Controller
+  authorize: (roles...) ->
+    currentRole = App.get('currentUser.role')
+    @redirect '/403' if currentRole not in roles
+```
+
+This assumes you have:
+ - a global `currentUser` object with a string `role` attribute
+ - a `@route '403', 'static_pages#unauthorized'` defined in `App.js.coffee` 
+ 
+Use it like this:
+
+```coffeescript
+class App.PaymentsController extends App.ApplicationController
+   @beforeAction -> @authorize 'Admin', 'SuperAdmin'
+```
+
+Now, any users who attempt to access actions of the PaymentsController and are not either `Admin`s or `SuperAdmin`s will be redirected to an unauthorized page.
+
 ## Managing Records
 \label{sec:managing_records}
 
