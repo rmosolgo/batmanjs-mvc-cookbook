@@ -162,6 +162,8 @@ Now, any users who attempt to access actions of the PaymentsController and are n
 
 __Make sure__ you also authenticate on the server also. You __must__ prevent unauthorized users from accessing parts of the API. If you don't, a malicious user could wreck your app by accessing the API directly (eg, via `$.ajax` or `curl`).
 
+(Contributed by [bradstewart](https://github.com/bradstewart))
+
 ## Managing Records
 \label{sec:managing_records}
 
