@@ -226,6 +226,17 @@ Batman.Filters.moment = (date, format) ->
 <span data-bind='currentEvent | moment "MMMM Do YYYY, h:mm:ss a"'></span>
 ```
 
+### Mailto Link Binding
+
+You can bind an email address to a `mailto:` link by binding to the `href` property of a `<a>` (Section~\ref{sec:bind_to_html_attributes}).
+
+For example, to create a mailto link for `user.emailAddress`:
+
+```html
+<a data-bind-href='user.emailAddress | prepend "mailto:"'> Send Email </a>
+```
+
+(Thanks to [jimmybaker](https://github.com/jimmybaker) for sharing this!)
 
 ### Send Views or Clicks to Google Analytics
 \label{sec:view_or_click_tracking}
