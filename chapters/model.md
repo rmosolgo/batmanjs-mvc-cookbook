@@ -355,7 +355,7 @@ class App.Player extends Batman.Model
 ```
 
 ### Corresponding Has-Many and Belongs-To
-
+\label{sec:has_many_belongs_to}
 To set up "player belongs to team", declare a `belongsTo` association in the `Player` definition:
 
 ```coffeescript
@@ -373,10 +373,51 @@ class App.Team extends Batman.Model
 _Be sure to include `inverseOf`, if possible. It sets up the 2-way association when loading from JSON._
 
 ### Has-Many Association with Inline JSON
+\label{sec:has_many_inline}
 
 Use `saveInline: true` in the association definition:
 
 ```coffeescript
 class App.Team extends Batman.Model
   @hasMany 'players', inverseOf: 'team', saveInline: true
+```
+
+### Adding and Removing Has-Many Children in a Form
+\label{sec:has_many_children_in_form}
+
+__NOTE:__ until batman.js v0.17, you should define `namespace: MyApp` if you want to use `AssociationSet::build`. This bug has been fixed in master.
+
+Use a custom view to encapsulate adding & removing. Then, connect the view to the form with `data-event` bindings.
+
+The view could look like this:
+
+```coffeescript
+class App.TeamPlayersFormView extends Batman.View
+  addPlayer: (team) ->
+    # team.get('players').build() # see note about `build` in v0.16
+    player = new App.Player(team: team)
+    team.get('players').add(player)
+
+  removePlayer: (team, player) ->
+    team.get('players').remove(player)
+    # if you aren't using saveInline: true, you may want to delete the player, too:
+    # player.destroy()
+```
+
+Then, you can wire it up to your HTML:
+
+```html
+<div data-view='TeamPlayersFormView'>
+  <a data-event-click="addPlayer | withArguments player">
+    Add a Player
+  </a>
+  <ul>
+    <li data-foreach-player='team.players'>
+      <input type='text' data-bind='player.name' />
+      <a data-event-click='removePlayer | withArguments team, player'>
+        Remove this Player
+      </a>
+    </li>
+  </ul>
+</div>
 ```

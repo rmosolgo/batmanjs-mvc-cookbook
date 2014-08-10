@@ -227,7 +227,7 @@ Batman.Filters.moment = (date, format) ->
 ```
 
 ### Mailto Link Binding
-
+\label{sec:mailto_binding}
 You can bind an email address to a `mailto:` link by binding to the `href` property of a `<a>` (Section~\ref{sec:bind_to_html_attributes}).
 
 For example, to create a mailto link for `user.emailAddress`:
