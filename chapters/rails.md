@@ -1,4 +1,4 @@
-# BAtman.js & Ruby on Rails
+# Batman.js & Ruby on Rails
 \label{cha:batman_rails}
 
 
