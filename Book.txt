@@ -12,3 +12,4 @@ controller.md
 view.md
 html.md
 debugging.md
+rails.md
