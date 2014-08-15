@@ -421,3 +421,22 @@ Then, you can wire it up to your HTML:
   </ul>
 </div>
 ```
+
+### Unloading Associations on Destroy
+\label{sec:unload_association_on_destroy}
+
+It is often useful to remove associated models upon destroy. We can accomplish this by using the `destroyed` model lifecycle listener:
+
+```coffeescript
+class App.Team extends Batman.Model
+  @hasMany 'players', inverseOf: 'team'
+  
+  @::on 'destroyed', -> @unloadAssociated('players')
+  
+  unloadAssociated: (label) ->
+    @get(label).forEach (record) ->
+      record.constructor.get('loaded').remove(record)
+```
+
+
+
