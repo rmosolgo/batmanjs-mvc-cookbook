@@ -66,7 +66,7 @@ class App.CountriesIndexView extends App.FadeView
 ### Cascading Fade with Iteration View
 \label{sec:cascade_fade_iteration_view}
 
-If we combine the power of Batman's view inheritance along with the view lifecycle API, we can accomplish a cascading fade:
+If we combine the power of Batman's view inheritance with the view lifecycle API, we can accomplish a cascading fade:
 
 ```coffeescript
 class App.CascadingFadeIterationView extends Batman.IterationView
