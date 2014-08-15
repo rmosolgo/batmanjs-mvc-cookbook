@@ -433,7 +433,7 @@ class App.Team extends Batman.Model
   
   @::on 'destroyed', -> @unloadAssociated('players')
   
-  unloadAssociated: (entry) ->
+  unloadAssociated: (label) ->
     @get(label).forEach (record) ->
       record.constructor.get('loaded').remove(record)
 ```
