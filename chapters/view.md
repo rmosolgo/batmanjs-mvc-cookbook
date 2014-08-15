@@ -63,6 +63,30 @@ class App.CountriesIndexView extends App.FadeView
     @_initialize() if !@_initialized
 ```
 
+### Cascading Fade with Iteration View
+\label{sec:cascade_fade_iteration_view}
+
+If we combine the power of Batman's view inheritance along with the view lifecycle API, we can accomplish a cascading fade:
+
+```coffeescript
+class App.CascadingFadeIterationView extends Batman.IterationView
+  viewWillAppear: ->
+    $(@get('node')).hide()
+
+  viewDidAppear: ->
+    node = $(@get('node'))
+    @superview._counter ||= 0
+    setTimeout (->
+      node.fadeIn(200)
+    ), @superview._counter += 200
+```
+
+```html
+<div data-foreach-country="countries" data-view="CascadingFadeIterationView">
+  <!-- will fade in incrementally -->
+</div>
+```
+
 ### Define Custom HTML
 \label{sec:custom_html}
 
