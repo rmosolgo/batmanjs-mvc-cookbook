@@ -184,6 +184,38 @@ To bind to the `href` of an `<a/>`:
 <a href='country.government_website_url' target="_blank">See Official Homepage</a>
 ```
 
+### Dynamically Bind Classes
+\label{sec:dynamic_classes}
+
+To bind HTML classes to your application, you have two options:
+
+__Use `data-bind-class`__ to bind the `class` attribute to a value. (In fact, you can bind to _any_ attribute, see Section~\ref{sec:named_partials}). For example:
+
+```html
+<p data-bind-class='post.status' data-bind='post.content'></p>
+```
+
+The `p`'s `class` will be set to the value of `post.status`.
+
+__Or, use `data-addclass`/`data-removeclass`__ to conditionally add/remove classes. For example, to add class `text-warning` if `post.isUrgent`:
+
+```html
+<p data-addclass-warning='post.isUrgent' data-bind='post.content'></p>
+```
+
+You can add any class name with `data-addclass-#{some-class}` (it's OK to use dashes).
+
+As with all bindings, you can use [view filters](http://batmanjs.org/docs/api/batman.view_filters.html) to modify the bound value. Here are a few examples:
+
+```html
+<!-- join and downcase an array: -->
+<p data-bind-class='post.categories | join " " | downcase'></p>
+<!-- append a (static) string: -->
+<p data-bind-class='post.topic | append " post-topic"'></p>
+<!-- invert boolean value -->
+<p data-addclass-boring='post.isInteresting | not'></p>
+```
+
 ### Fire Controller Action without Changing the URL
 \label{sec:fire_controller_action}
 

@@ -615,13 +615,13 @@ padres.set('rightField', "Tony Gwynn")
 
 But invalid ones may not:
 
-```
+```coffeescript
 padres.set('quarterback', "John Elway") # => Error: quarterback isn't a valid position!
 ```
 
 And explicitly-defined accessors take precendence:
 
-```
+```coffeescript
 padres.get('members') # => Batman.Hash
 padres.toJSON()       # => {rightField: "Tony Gwynn", thirdBase: "Chase Headley"}
 ```
