@@ -184,6 +184,38 @@ class App.CountryEditView extends Batman.View
     @unset('savingMessage')
 ```
 
+### Prevent Event Propagation 
+\label{sec:prevent_event_propagation}
+
+It can be useful to have multiple components respond to events nested within each other. Let's take a look at a use case.
+
+```html
+<ul>
+  <li data-event-click='listItemClick'>
+    <span data-event-click='spanClick'>Span</span>
+    List Item
+  </li>
+</ul>
+```
+
+By default, a click event triggered anywhere within the `li` element will trigger `listItemClick`, this includes any clicks placed within the `span` element. 
+
+This is not always the desired functionality. What if we don't want `listItemClick` to be triggered when the `span` is clicked?
+
+This can be easily accomplished using JavaScript's [event.stopPropagation](https://developer.mozilla.org/en-US/docs/Web/API/event.stopPropagation).
+
+In the view, we need only to specify that the `spanClick` action should prevent the event from also being propagated to the `listItemClick` action.
+
+```coffeescript
+class App.ItemListView extends Batman.View
+  spanClick: (node, event, view) ->
+    event.stopPropagation()
+    node.classList.toggle('active')
+    
+  listItemClick: (node, event, view) ->                  
+    node.classList.toggle('active')
+```
+
 ### Sterilize Input Values
 \label{sec:sterilize_inputs}
 
