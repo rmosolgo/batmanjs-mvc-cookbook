@@ -1,6 +1,7 @@
 # Batman.js & Ruby on Rails
 \label{cha:batman_rails}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
 
 ## Routing
 \label{sec:rails_routing}

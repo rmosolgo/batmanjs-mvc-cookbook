@@ -1,6 +1,8 @@
 # Debugging
 \label{cha:debugging}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Live Debugging
 \label{sec:live_debugging}
 

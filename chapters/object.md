@@ -1,6 +1,9 @@
 # Principles: Batman.Object
 \label{sec:object}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
+
 `Batman.Object` is the superclass of (virtually) all objects in Batman.js, so these pointers apply to all the classes you'll interact with:
 
 - `Batman.App`

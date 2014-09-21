@@ -1,6 +1,8 @@
 # Views
 \label{cha:batman_view}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Custom Views
 \label{sec:custom_views}
 
@@ -184,7 +186,7 @@ class App.CountryEditView extends Batman.View
     @unset('savingMessage')
 ```
 
-### Prevent Event Propagation 
+### Prevent Event Propagation
 \label{sec:prevent_event_propagation}
 
 It can be useful to have multiple components respond to events nested within each other. Let's take a look at a use case.
@@ -198,7 +200,7 @@ It can be useful to have multiple components respond to events nested within eac
 </ul>
 ```
 
-By default, a click event triggered anywhere within the `li` element will trigger `listItemClick`, this includes any clicks placed within the `span` element. 
+By default, a click event triggered anywhere within the `li` element will trigger `listItemClick`, this includes any clicks placed within the `span` element.
 
 This is not always the desired functionality. What if we don't want `listItemClick` to be triggered when the `span` is clicked?
 
@@ -211,8 +213,8 @@ class App.ItemListView extends Batman.View
   spanClick: (node, event, view) ->
     event.stopPropagation()
     node.classList.toggle('active')
-    
-  listItemClick: (node, event, view) ->                  
+
+  listItemClick: (node, event, view) ->
     node.classList.toggle('active')
 ```
 

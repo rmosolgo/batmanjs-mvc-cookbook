@@ -1,6 +1,8 @@
 # Controller
 \label{cha:batman_controller}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Rendering Views
 \label{sec:rendering_views}
 
@@ -149,8 +151,8 @@ class App.ApplicationController extends Batman.Controller
 
 This assumes you have:
  - a global `currentUser` object with a string `role` attribute
- - a `@route '403', 'static_pages#unauthorized'` defined in `App.js.coffee` 
- 
+ - a `@route '403', 'static_pages#unauthorized'` defined in `App.js.coffee`
+
 Use it like this:
 
 ```coffeescript

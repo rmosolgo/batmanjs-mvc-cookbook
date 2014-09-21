@@ -1,6 +1,8 @@
 # HTML, Bindings and Filters
 \label{cha:batman_view_html}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Displaying Records
 \label{sec:displaying_records}
 

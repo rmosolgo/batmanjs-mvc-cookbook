@@ -1,6 +1,8 @@
 # Storage Adapter
 \label{cha:storage_adapter}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Custom Storage Adapters
 \label{sec:custom_storage_adapters}
 

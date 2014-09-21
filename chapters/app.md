@@ -1,6 +1,8 @@
 # App
 \label{cha:batman_app}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 
 ## Setup
 \label{sec:setup}

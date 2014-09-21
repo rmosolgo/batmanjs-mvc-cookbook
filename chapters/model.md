@@ -1,6 +1,8 @@
 # Model
 \label{cha:batman_model}
 
+__To my knowledge, batman.js is currently unmaintained. For this reason, I don't recommend starting your next project with batman.js!__
+
 ## Working with Records
 \label{sec:records}
 
@@ -430,9 +432,9 @@ It is often useful to remove associated models upon destroy. We can accomplish t
 ```coffeescript
 class App.Team extends Batman.Model
   @hasMany 'players', inverseOf: 'team'
-  
+
   @::on 'destroyed', -> @unloadAssociated('players')
-  
+
   unloadAssociated: (label) ->
     @get(label).forEach (record) ->
       record.constructor.get('loaded').remove(record)
